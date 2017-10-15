@@ -1,0 +1,33 @@
+{
+  "Services": {
+    "mysql": {
+      "Env": [
+        "MYSQL_PASSWORD=password", 
+        "MYSQL_DATABASE=example", 
+        "MYSQL_USER=admin", 
+        "MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql-root"
+      ], 
+      "Image": "mysql@sha256:bfb22e93ee87c6aab6c1c9a4e7cdc68e9cb9b64920f28fa289f9ffae9fe8e173", 
+      "Networks": [
+        "back"
+      ]
+    }, 
+    "phpmyadmin": {
+      "Env": [
+        "PMA_HOST=mysql"
+      ], 
+      "Image": "phpmyadmin/phpmyadmin@sha256:99b288b7d1841d6f1e60ff20200f60abeeb2fc486de3147940b0eae1ffc0f0bc", 
+      "Networks": [
+        "front", 
+        "back"
+      ], 
+      "Ports": [
+        {
+          "Port": 80, 
+          "Protocol": "tcp"
+        }
+      ]
+    }
+  }, 
+  "Version": "0.1"
+}

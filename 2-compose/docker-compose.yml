@@ -1,0 +1,39 @@
+version: "3.1"
+
+services:
+  phpmyadmin:
+    depends_on: 
+     - mysql
+    environment:
+     - PMA_HOST=mysql
+    image: phpmyadmin/phpmyadmin:4.7.4-1
+    networks:
+     - back
+     - front
+    ports:
+     - "80:80"
+    restart: always
+     
+  mysql:
+    environment:
+     - MYSQL_DATABASE=example
+     - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql-root
+     - MYSQL_USER=admin
+     - MYSQL_PASSWORD=password
+    image: mysql
+    networks:
+     - back
+    restart: always
+    secrets:
+     - source: mysql-root
+
+
+networks:
+  front:
+    driver: bridge
+  back:    
+    driver: bridge
+
+secrets:
+  mysql-root:
+    file: ./secrets/password_file.txt
